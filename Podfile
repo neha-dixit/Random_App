@@ -6,6 +6,7 @@ target 'Random_App' do
     use_frameworks!
     # Pods for Random_App
     pod 'Firebase/Analytics'
-    pod 'Firebase/Core'
     pod 'Firebase/Firestore'
+    pod 'Firebase/Core'
+    pod 'Firebase/Auth'
   end

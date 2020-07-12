@@ -8,9 +8,15 @@
 
 import Foundation
 let THOUGHT_REF = "thoughts"
+let USERS_REF = "users"
+let COMMENT_REF = "comments"
+
 let CATEGORY = "category"
 let NUM_COMMENT = "numComment"
 let NUM_LIKES = "num_Likes"
 let THOUGHT_TXT = "thoughtTxt"
 let TIMESTAMP = "timestamp"
 let USERNAME = "username"
+let DATE_CREATED = "dateCreated"
+let COMMENT_TXT = "commentTxt"
+

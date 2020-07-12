@@ -34,8 +34,8 @@ class AddThoughtVC: UIViewController {
         switch categorySegment.selectedSegmentIndex {
         case 0:
             selectedCategory = thoughtCategory.funny.rawValue
-            case 1:
-                selectedCategory = thoughtCategory.serious.rawValue
+        case 1:
+            selectedCategory = thoughtCategory.serious.rawValue
         default:
             selectedCategory = thoughtCategory.crazy.rawValue
         }
@@ -43,25 +43,27 @@ class AddThoughtVC: UIViewController {
     
     @IBAction func postBtnTapped(_ sender: Any) {
         guard let username = usernameTxt.text else {return}
+        // Firestore.firestore().collection(THOUGHT_REF).addDocument(data:
         Firestore.firestore().collection(THOUGHT_REF).addDocument(data:
-        [
-           CATEGORY: categorySegment,
-           NUM_COMMENT : 0,
-          NUM_LIKES : 0,
-         THOUGHT_TXT : thoughtTxtView.text,
-            TIMESTAMP : FieldValue.serverTimestamp(),
-            USERNAME: username
+            [
+               // CATEGORY: categorySegment!,
+                CATEGORY : selectedCategory,
+                NUM_COMMENT : 0,
+                NUM_LIKES : 0,
+                THOUGHT_TXT : thoughtTxtView.text!,
+                TIMESTAMP : FieldValue.serverTimestamp(),
+                USERNAME: username
             ])
         { (error) in
-          if  let error = error {
+            if  let error = error {
                 debugPrint("error adding documents\(error)")
-          } else {
-            self.navigationController?.popViewController(animated: true)
+            } else {
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }
 }
-    
+
 extension AddThoughtVC: UITextViewDelegate{
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         thoughtTxtView.text = ""
