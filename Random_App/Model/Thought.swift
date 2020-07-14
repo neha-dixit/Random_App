@@ -31,6 +31,7 @@ class Thought {
     
     class func parseData(snapshot: QuerySnapshot?) -> [Thought]{
         var thoughts =  [Thought]()
+        print("give some thoughts",thoughts)
         guard let snap = snapshot else { return thoughts }
         for document in (snap.documents){
             //print(document.data())

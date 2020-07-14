@@ -10,38 +10,33 @@ import Foundation
 import Firebase
 class Comment {
     //private variable
-        
         private(set) var username: String!
         private(set) var timestamp: Timestamp!
         private(set) var commentTxt: String!
         
-        
-        init(username: String, timstamp: Timestamp, commentTxt: String) {
-            
+        init(username: String, timestamp: Timestamp, commentTxt: String) {
             self.username = username
-            self.timestamp = timstamp
+            self.timestamp = timestamp
             self.commentTxt = commentTxt
-           
+            
         }
-        
-//        class func parseData(snapshot: QuerySnapshot?) -> [Thought]{
-//            var thoughts =  [Thought]()
-//            guard let snap = snapshot else { return thoughts }
-//            for document in (snap.documents){
-//                //print(document.data())
-//                let data = document.data()
-//                let username = data[USERNAME] as! String
-//                //let timestamp = data[TIMESTAMP] as? Date ?? Date()
-//                let timestamp = data[TIMESTAMP] as? Timestamp ?? Timestamp()
-//                let thoughtTxt = data[THOUGHT_TXT] as? String ?? ""
-//                let num_likes = data[NUM_LIKES] as? Int ?? 0
-//                let num_Comment = data[NUM_COMMENT] as? Int ?? 0
-//                let documentId = document.documentID
-//
-//                let newThoughts = Thought(username: username, timstamp: timestamp, thoughtTxt: thoughtTxt, numLikes: num_likes, numComments: num_Comment, documentId: documentId)
-//                thoughts.append(newThoughts)
-//        }
-//            return thoughts
-//    }
+    
+    class func parseData(snapshot: QuerySnapshot?) -> [Comment] {
+        var comments = [Comment]()
+            
+            guard let snap = snapshot else {  //print("hi")
+                return comments }
+            for document in snap.documents {
+                
+                let data = document.data()
+                let username = data[USERNAME] as? String ?? "Ananymous"
+                let timestamp = data[TIMESTAMP] as? Timestamp ?? Timestamp()
+                let commentTxt = data[COMMENT_TXT] as? String ?? ""
+                
+                let newComment = Comment(username: username, timestamp: timestamp, commentTxt: commentTxt)
+                comments.append(newComment)
+        }
+           return comments
+   }
 
 }

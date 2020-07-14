@@ -13,14 +13,16 @@ class CommentCell: UITableViewCell {
     @IBOutlet weak var usernameTxt: UILabel!
     @IBOutlet weak var timestampTxt: UILabel!
     @IBOutlet weak var commentTxt: UILabel!
-    
+   
     func configureCell(comment: Comment){
         usernameTxt.text = comment.username
+       
+        commentTxt.text = comment.commentTxt
+    
         let formatter =  DateFormatter()
         formatter.dateFormat = "MMM d hh:mm"
         let timestamp = formatter.string(from: comment.timestamp.dateValue())
         timestampTxt.text = timestamp
-        commentTxt.text = comment.commentTxt
     }
 }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		526AB09424BCCDC500A33838 /* KeyboardBoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AB09324BCCDC500A33838 /* KeyboardBoundView.swift */; };
 		529332EC24B9816300916928 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332EB24B9816300916928 /* LoginVC.swift */; };
 		529332EE24B985B600916928 /* CreateUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332ED24B985B600916928 /* CreateUserVC.swift */; };
 		529332F024BAD9C700916928 /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332EF24BAD9C700916928 /* CommentsVC.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		526AB09324BCCDC500A33838 /* KeyboardBoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardBoundView.swift; sourceTree = "<group>"; };
 		529332EB24B9816300916928 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		529332ED24B985B600916928 /* CreateUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserVC.swift; sourceTree = "<group>"; };
 		529332EF24BAD9C700916928 /* CommentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVC.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		52BCA30124AF341500D7FF27 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				526AB09324BCCDC500A33838 /* KeyboardBoundView.swift */,
 				52BCA30224AF342E00D7FF27 /* Constant.swift */,
 			);
 			path = Utilities;
@@ -273,6 +276,7 @@
 				52BCA2E724ACB93700D7FF27 /* AppDelegate.swift in Sources */,
 				529332EC24B9816300916928 /* LoginVC.swift in Sources */,
 				529332F224BB0AA400916928 /* CommentCell.swift in Sources */,
+				526AB09424BCCDC500A33838 /* KeyboardBoundView.swift in Sources */,
 				52BCA30324AF342E00D7FF27 /* Constant.swift in Sources */,
 				529332F024BAD9C700916928 /* CommentsVC.swift in Sources */,
 				52FB615424AF5B2B00010BEF /* Thought.swift in Sources */,
