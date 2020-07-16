@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		526AB09424BCCDC500A33838 /* KeyboardBoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AB09324BCCDC500A33838 /* KeyboardBoundView.swift */; };
+		526AB09624C001A200A33838 /* UpdateCommentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526AB09524C001A100A33838 /* UpdateCommentVC.swift */; };
 		529332EC24B9816300916928 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332EB24B9816300916928 /* LoginVC.swift */; };
 		529332EE24B985B600916928 /* CreateUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332ED24B985B600916928 /* CreateUserVC.swift */; };
 		529332F024BAD9C700916928 /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529332EF24BAD9C700916928 /* CommentsVC.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		526AB09324BCCDC500A33838 /* KeyboardBoundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardBoundView.swift; sourceTree = "<group>"; };
+		526AB09524C001A100A33838 /* UpdateCommentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCommentVC.swift; sourceTree = "<group>"; };
 		529332EB24B9816300916928 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		529332ED24B985B600916928 /* CreateUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserVC.swift; sourceTree = "<group>"; };
 		529332EF24BAD9C700916928 /* CommentsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsVC.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				529332EB24B9816300916928 /* LoginVC.swift */,
 				529332ED24B985B600916928 /* CreateUserVC.swift */,
 				529332EF24BAD9C700916928 /* CommentsVC.swift */,
+				526AB09524C001A100A33838 /* UpdateCommentVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52BCA2EB24ACB93700D7FF27 /* MainVC.swift in Sources */,
+				526AB09624C001A200A33838 /* UpdateCommentVC.swift in Sources */,
 				52BCA2E724ACB93700D7FF27 /* AppDelegate.swift in Sources */,
 				529332EC24B9816300916928 /* LoginVC.swift in Sources */,
 				529332F224BB0AA400916928 /* CommentCell.swift in Sources */,

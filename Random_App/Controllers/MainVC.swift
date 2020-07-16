@@ -16,7 +16,11 @@ enum thoughtCategory : String {
     case popular = "popular"
     
 }
-class MainVC: UIViewController {
+class MainVC: UIViewController, ThoughtDelegate{
+    func thoughtOptionsTapped(thought: Thought) {
+        print("something happen with tap gesture", thought.username)
+    }
+    
     
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
@@ -127,7 +131,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "thoughtCell", for: indexPath) as? ThoughtCell {
-            cell.configureCell(thought: thoughtsArray[indexPath.row])
+            cell.configureCell(thought: thoughtsArray[indexPath.row], delegate: self)
             return cell
         }
         return UITableViewCell()

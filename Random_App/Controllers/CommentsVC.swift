@@ -8,9 +8,7 @@
 
 import UIKit
 import Firebase
-class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
+class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, CommentDelegate {
     // outlets
     @IBOutlet weak var tableview: UITableView!
     @IBOutlet weak var addCommentTxt: UITextField!
@@ -38,23 +36,90 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     override func viewDidAppear(_ animated: Bool) {
         commentListner = firestore.collection(THOUGHT_REF).document(self.thought.documentId).collection(COMMENT_REF)
-        .order(by: TIMESTAMP, descending: true)
+            .order(by: TIMESTAMP, descending: true)
             .addSnapshotListener({ (snapshot, error) in
-            guard let snapshot = snapshot else {
-                debugPrint("Error in fetching comments \(error!)")
-                return
-            }
-            
-            self.comments.removeAll()
-            self.comments = Comment.parseData(snapshot: snapshot)
-            self.tableview.reloadData()
-        })
+                guard let snapshot = snapshot else {
+                    debugPrint("Error in fetching comments \(error!)")
+                    return
+                }
+                
+                self.comments.removeAll()
+                self.comments = Comment.parseData(snapshot: snapshot)
+                self.tableview.reloadData()
+            })
     }
     override func viewDidDisappear(_ animated: Bool) {
         commentListner.remove()
     }
-
     
+    func commentOptionsTapped(comment: Comment) {
+        // here we add alerts for edit and delete and cancel as well
+        let alert = UIAlertController(title: "Edit Comment", message: "You can delete or edit", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { (action) in
+            // delete the comment
+            //           //this is how we delete a thing so we need to do this way when we only need to delte something no need to update it in somewhere self.firestore.collection(THOUGHT_REF).document(self.thought.documentId).collection(COMMENT_REF).document(comment.documentId).delete { (error) in
+            //                if let error = error {
+            //                    debugPrint("Error while deleting", error.localizedDescription)
+            //                } else {
+            //                    alert.dismiss(animated: true, completion: nil)
+            //                }
+            //            }
+            
+            //second method here we have to run the transcation same as we did in comment add
+            guard let commentTxt = self.addCommentTxt.text else { return }
+            self.firestore.runTransaction({ (transaction, errorPointer) -> Any? in
+                let thoughtDocument: DocumentSnapshot
+                // read
+                do{
+                    try thoughtDocument = transaction.getDocument(Firestore.firestore().collection(THOUGHT_REF).document(self.thought.documentId))
+                    
+                }
+                catch let error as NSError {
+                    debugPrint("Fetch Error \(error.localizedDescription)")
+                    return nil
+                }
+                //print("thoughtDocument", thoughtDocument)
+                //get what we read
+                guard let oldNumComments = thoughtDocument.data()![NUM_COMMENT] as? Int else { return nil}
+                //print("old comment", oldNumComments)
+                //update
+                transaction.updateData([NUM_COMMENT : oldNumComments - 1], forDocument: self.thoughtRef)
+                // generate new comment
+                let commentRef = self.firestore.collection(THOUGHT_REF).document(self.thought.documentId).collection(COMMENT_REF).document(comment.documentId)
+                transaction.deleteDocument(commentRef)
+                return nil
+                
+            }) { (object, error) in
+                if let error = error {
+                    debugPrint("Transaction failed\(error.localizedDescription)")
+                } else {
+                    
+                    alert.dismiss(animated: true, completion: nil)
+                }
+                
+            }
+        }
+        let editAction = UIAlertAction(title: "Edit", style: .default) { (action) in
+            // EDIT COMMENT
+            self.performSegue(withIdentifier: "toEditComment", sender: (comment, self.thought))
+            alert.dismiss(animated: true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            //cancel comment
+        }
+        alert.addAction(editAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? UpdateCommentVC {
+            if let commentData = sender as? (comment: Comment, thought: Thought){
+                destination.commentData = commentData
+            }
+        }
+    }
     @IBAction func addCommentBtnTapped(_ sender: Any) {
         guard let commentTxt = addCommentTxt.text else { print("addbutton else")
             return }
@@ -82,9 +147,10 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             transaction.setData([
                 COMMENT_TXT : commentTxt,
                 TIMESTAMP: FieldValue.serverTimestamp(),
-                USERNAME: self.username!
+                USERNAME: self.username!,
+                USER_ID: Auth.auth().currentUser?.uid ?? ""
             ], forDocument: newCommentRef)
-           
+            
             return nil
             
         }) { (object, error) in
@@ -94,25 +160,24 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 self.addCommentTxt.text = ""
                 self.addCommentTxt.resignFirstResponder()
             }
-        
-    }
+            
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+        
         return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell =  tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath) as? CommentCell {
-            cell.configureCell(comment: comments[indexPath.row])
-           
+            cell.configureCell(comment: comments[indexPath.row], delegate: self)
             return cell
         }
-            return UITableViewCell()
+        return UITableViewCell()
     }
     
- func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-   }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
 }
 
